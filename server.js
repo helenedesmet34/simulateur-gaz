@@ -41,7 +41,5 @@ wss.on("connection", (ws) => {
   });
 });
 
-const PORT = 8080;
-server.listen(PORT, "0.0.0.0", () => console.log(`OK: http://127.0.0.1:${PORT}`));
 const PORT = process.env.PORT || 8080;
 server.listen(PORT, "0.0.0.0", () => console.log(`OK: ${PORT}`));
