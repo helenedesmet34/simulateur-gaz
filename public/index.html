@@ -33,7 +33,8 @@ body {
 <div id="lel" class="box">LIE : 0 %</div>
 
 <script>
-const ws = new WebSocket("ws://" + location.host);
+const proto = (location.protocol === "https:") ? "wss" : "ws";
+const ws = new WebSocket(proto + "://" + location.host);
 
 ws.onmessage = function(event) {
     const data = JSON.parse(event.data);
