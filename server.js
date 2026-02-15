@@ -12,8 +12,20 @@ app.get("/", (req, res) => res.sendFile(path.join(__dirname, "public", "index.ht
 
 let state = {
   o2: 20.9, co: 0, h2s: 0, lel: 0,
-  th: { o2_low: 19.5, o2_high: 23.5, co_high: 50, h2s_high: 10, lel_high: 10 },
-  updatedAt: Date.now(),
+ thresholds: {
+  o2_low: 19,
+  o2_high: 23,
+
+  h2s_low: 5,
+  h2s_high: 10,
+
+  co_low: 20,
+  co_high: 100,
+
+  lel_low: 10,
+  lel_high: 20
+},
+ updatedAt: Date.now()
 };
 
 function broadcast(obj) {
