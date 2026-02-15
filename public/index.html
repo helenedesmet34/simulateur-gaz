@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Détecteur Multigaz - Stagiaire</title>
+<style>
+body {
+    background: black;
+    color: #00ff00;
+    font-family: Arial, sans-serif;
+    text-align: center;
+}
+.box {
+    border: 2px solid #00ff00;
+    margin: 20px;
+    padding: 20px;
+    font-size: 28px;
+}
+.alarm {
+    background: red;
+    color: white;
+}
+</style>
+</head>
+<body>
+
+<h1>Détecteur Multigaz</h1>
+
+<div id="o2" class="box">O₂ : 20.9 %</div>
+<div id="co" class="box">CO : 0 ppm</div>
+<div id="h2s" class="box">H₂S : 0 ppm</div>
+<div id="lel" class="box">LIE : 0 %</div>
+
+<script>
+const ws = new WebSocket("ws://" + location.host);
+
+ws.onmessage = function(event) {
+    const data = JSON.parse(event.data);
+
+    if (data.type === "state") {
+        updateGas("o2", "O₂", data.state.o2, "%", data.state.th.o2_low, data.state.th.o2_high);
+        updateGas("co", "CO", data.state.co, "ppm", 0, data.state.th.co_high);
+        updateGas("h2s", "H₂S", data.state.h2s, "ppm", 0, data.state.th.h2s_high);
+        updateGas("lel", "LIE", data.state.lel, "%", 0, data.state.th.lel_high);
+    }
+};
+
+function updateGas(id, label, value, unit, min, max) {
+    const el = document.getElementById(id);
+    el.textContent = label + " : " + value + " " + unit;
+
+    if (value < min || value > max) {
+        el.classList.add("alarm");
+    } else {
+        el.classList.remove("alarm");
+    }
+}
+</script>
+
+</body>
+</html>

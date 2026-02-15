@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Détecteur Multigaz - Formateur</title>
+<style>
+body {
+    font-family: Arial, sans-serif;
+    background: #111;
+    color: white;
+    text-align: center;
+}
+input {
+    font-size: 18px;
+    width: 80px;
+}
+button {
+    font-size: 16px;
+    margin: 10px;
+    padding: 8px 15px;
+}
+</style>
+</head>
+<body>
+
+<h1>Mode Formateur</h1>
+
+<div>
+O₂ : <input type="number" id="o2" value="20.9" step="0.1"> %
+</div>
+
+<div>
+CO : <input type="number" id="co" value="0"> ppm
+</div>
+
+<div>
+H₂S : <input type="number" id="h2s" value="0"> ppm
+</div>
+
+<div>
+LIE : <input type="number" id="lel" value="0"> %
+</div>
+
+<button onclick="sendValues()">Envoyer</button>
+<button onclick="reset()">RAS</button>
+
+<script>
+const ws = new WebSocket("ws://" + location.host);
+
+function sendValues() {
+    const data = {
+        type: "set",
+        payload: {
+            o2: parseFloat(document.getElementById("o2").value),
+            co: parseFloat(document.getElementById("co").value),
+            h2s: parseFloat(document.getElementById("h2s").value),
+            lel: parseFloat(document.getElementById("lel").value)
+        }
+    };
+    ws.send(JSON.stringify(data));
+}
+
+function reset() {
+    document.getElementById("o2").value = 20.9;
+    document.getElementById("co").value = 0;
+    document.getElementById("h2s").value = 0;
+    document.getElementById("lel").value = 0;
+    sendValues();
+}
+</script>
+
+</body>
+</html>
