@@ -48,7 +48,6 @@ LIE : <input type="number" id="lel" value="0"> %
 <script>
 const proto = (location.protocol === "https:") ? "wss" : "ws";
 const ws = new WebSocket(proto + "://" + location.host);
-
 function sendValues() {
     const data = {
         type: "set",
