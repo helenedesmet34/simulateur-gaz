@@ -47,12 +47,12 @@ ws.onmessage = function(event) {
     const data = JSON.parse(event.data);
 
     if (data.type === "state") {
-        updateGas("o2", "O₂", data.state.o2, "%", data.state.th.o2_low, data.state.th.o2_high);
-        updateGas("co", "CO", data.state.co, "ppm", 0, data.state.th.co_high);
-        updateGas("h2s", "H₂S", data.state.h2s, "ppm", 0, data.state.th.h2s_high);
-        updateGas("lel", "LIE", data.state.lel, "%", 0, data.state.th.lel_high);
-    }
-};
+        const th = data.state.thresholds;
+
+updateGas("o2", "O₂", data.state.o2, "%", th.o2_low, th.o2_high);
+updateGas("co", "CO", data.state.co, "ppm", th.co_low, th.co_high);
+updateGas("h2s", "H₂S", data.state.h2s, "ppm", th.h2s_low, th.h2s_high);
+updateGas("lel", "COMB-EX", data.state.lel, "%", th.lel_low, th.lel_high);
 
 function updateGas(id, label, value, unit, min, max) {
     const el = document.getElementById(id);
