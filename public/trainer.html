@@ -52,6 +52,10 @@ LIE : <input type="number" id="lel" value="0"> %
 <script>
 const proto = (location.protocol === "https:") ? "wss" : "ws";
 const ws = new WebSocket(proto + "://" + location.host);
+ws.addEventListener("open", () => {
+  const el = document.getElementById("wsstatus");
+  if (el) el.textContent = "✅ WebSocket connecté";
+});
 function sendValues() {
     const data = {
         type: "set",

@@ -39,6 +39,10 @@ Connexion…
 <script>
 const proto = (location.protocol === "https:") ? "wss" : "ws";
 const ws = new WebSocket(proto + "://" + location.host);
+ws.addEventListener("open", () => {
+  const el = document.getElementById("wsstatus");
+  if (el) el.textContent = "✅ Connecté";
+});
 ws.onmessage = function(event) {
     const data = JSON.parse(event.data);
 
